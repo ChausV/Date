@@ -8,4 +8,4 @@ set(EXECUTABLE_NAME date)
 
 include_directories(include)
 
-add_executable(${EXECUTABLE_NAME} src/main.cpp src/Date.cpp)
+add_executable(${EXECUTABLE_NAME} src/main.cpp src/Date.cpp src/test.cpp)
