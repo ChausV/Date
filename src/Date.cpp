@@ -30,11 +30,12 @@ int Date::countTotal(int d, int m, int y)
 
 std::string Date::countDate()
 {
-	int tot = total;
+	// this INT variable limits correct tests to 14699 year
+	long long tot = total;
 
+	// count years
 	// bad accuracy because of integer division in initial formula
 	int y = 400 * tot / (400 * 365 + 100 - 4 + 1);
-
 	tot -= y * 365 + (y / 4) - (y / 100) + (y / 400);
 
 	// crutch to fix bad accuracy
@@ -57,6 +58,7 @@ std::string Date::countDate()
 	}
 	++y;
 
+	// count months
 	int m {0};
 	if (yearIsLeap(y))
 	{
@@ -84,7 +86,8 @@ std::string Date::countDate()
 	}
 	++m;
 
-	int d {tot};
+	// count days
+	int d {static_cast<int>(tot)};
 	++d;
 
 	std::stringstream ss;

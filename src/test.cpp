@@ -32,6 +32,13 @@ void testDateQuiet(const std::string & str)
 	}
 }
 
+void testPrintDate(const std::string & str)
+{
+	Date d;
+	d.setDate(str);
+	cout << d << endl;
+}
+
 bool isLeap(int year)
 {
 	return (!(year % 400) || (!(year % 4) && year % 100));
@@ -81,8 +88,8 @@ void test_problem()
 }
 
 /*
-** takes range of years and checks every date in this range.
-** outputs in case of error.
+** Takes range of years and checks every date in this range.
+** Outputs in case of error.
 */
 void test_full_dates(int y1, int y2)
 {	
@@ -100,8 +107,7 @@ void test_full_dates(int y1, int y2)
 				std::stringstream ss;
 				ss << d << " " << m << " " << y;
 				testDateQuiet(ss.str());
-				// if (m == 2 && d > 28)
-				// 	cout << d << " " << m << " " << y << endl;
+				// testPrintDate(ss.str());
 			}
 		}
 	}
