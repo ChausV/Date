@@ -96,18 +96,48 @@ std::string Date::countDate()
 	return ss.str();
 }
 
-bool Date::yearIsLeap(int year)
+bool Date::yearIsLeap(int year) const
 {
 	return (!(year % 400) || (!(year % 4) && year % 100));
 }
 
 std::ostream & operator<<(std::ostream & out, const Date & date)
 {
+	// size_t d_pos = format.find("%d");
+	// size_t m_pos = format.find("%m");
+	// size_t y_pos = format.find("%y");
+
+	std::string result(Date::format);
+	result.replace(result.find("%d"), 2, std::to_string(date.day));
+	result.replace(result.find("%m"), 2, std::to_string(date.month));
+	result.replace(result.find("%y"), 2, std::to_string(date.year));
+
+	out << result << std::endl;
 	out << date.day << " " << date.month << " " << date.year << " --- " << date.total;
 	return out;
 }
 
-int Date::days_in_month[13] = 
+bool Date::setFormat(const std::string & format)
+{
+	size_t d_pos = format.find("%d");
+	size_t m_pos = format.find("%m");
+	size_t y_pos = format.find("%y");
+
+	if (d_pos == std::string::npos ||
+		m_pos == std::string::npos ||
+		y_pos == std::string::npos ||
+		d_pos != format.rfind("%d") ||
+		m_pos != format.rfind("%m") ||
+		y_pos != format.rfind("%y") )
+	{
+		return false;
+	}
+
+	Date::format = format;
+	return true;
+}
+
+const int Date::days_in_month[13] = 
 {
 	0,
 	Date::days_in_month[0] + 31,
@@ -124,7 +154,7 @@ int Date::days_in_month[13] =
 	Date::days_in_month[11] + 31
 };
 
-int Date::days_in_month_leap[13] = 
+const int Date::days_in_month_leap[13] = 
 {
 	0,
 	Date::days_in_month_leap[0] + 31,
@@ -140,3 +170,5 @@ int Date::days_in_month_leap[13] =
 	Date::days_in_month_leap[10] + 30,
 	Date::days_in_month_leap[11] + 31
 };
+
+std::string Date::format = "%d %m %y";

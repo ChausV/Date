@@ -15,11 +15,14 @@ public:
 
 	// move to private: : : : : : :  : : : :   : : : : : : :
 	int countTotal(int d, int m, int y);
-	bool yearIsLeap(int year);
+	bool yearIsLeap(int year) const;
 	std::string countDate();
 
-	static int days_in_month[13];	// for not leap year
-	static int days_in_month_leap[13];	// for leap year
+	static bool setFormat(const std::string & format);
+
+	static const int days_in_month[13];	// for not leap year
+	static const int days_in_month_leap[13];	// for leap year
+	static std::string format;
 
 private:
 	int day;
