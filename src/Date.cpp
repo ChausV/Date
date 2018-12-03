@@ -2,18 +2,9 @@
 #include <sstream>
 #include <regex>
 
-static void readYMD(char * input, char * format, int * y, int * m, int * d);
+static void readYMD(char *input, char *format, int *y, int *m, int *d);
 
-/*
-
-	std::stringstream ss(str);
-	ss >> day >> month >> year;
-
-	std::stringstream ss;
-	ss << d << " " << m << " " << y;
-
-*/
-Date::Date() : day(0), month(0), year(0), total(0)
+Date::Date() : day(1), month(1), year(1), total(0)
 {}
 
 bool Date::setDate(const std::string & input)
@@ -52,13 +43,28 @@ bool Date::setDate(const std::string & input)
 
 std::string Date::getDate() const
 {
-
 	std::string result(Date::format);
 	result.replace(result.find("%d"), 2, std::to_string(day));
 	result.replace(result.find("%m"), 2, std::to_string(month));
 	result.replace(result.find("%y"), 2, std::to_string(year));
 
 	return result;
+}
+
+bool Date::modify(int days)
+{
+	if (days < 0 && total < -days)
+		return false;
+
+	// TODO handle overflow
+	total += days;
+	countDate();
+	return true;
+}
+
+int Date::operator-(const Date & r) const
+{
+	return total - r.total;
 }
 
 void Date::countTotal()
@@ -71,6 +77,7 @@ void Date::countTotal()
 	if (month > 2 && yearIsLeap(y + 1))
 		++result;
 	result += day - 1;
+	
 	total = result;
 }
 
@@ -148,8 +155,23 @@ bool Date::yearIsLeap(int year) const
 
 std::ostream & operator<<(std::ostream & out, const Date & date)
 {
-	out << date.getDate() << std::endl;
+	out << date.getDate();
 	return out;
+}
+
+std::istream & operator>>(std::istream & in, Date & date)
+{
+	std::string input;
+	std::getline(in, input);
+	if (!in.good())
+	{
+		std::cerr << "istream error" << std::endl;
+		exit(1);
+	}
+
+	date.setDate(input);
+
+	return in;
 }
 
 static void readYMD(char * input, char * format, int * y, int * m, int * d)
@@ -171,21 +193,6 @@ static void readYMD(char * input, char * format, int * y, int * m, int * d)
 	++format;
 
 	readYMD(input, format, y, m, d);
-}
-
-std::istream & operator>>(std::istream & in, Date & date)
-{
-	std::string input;
-	std::getline(in, input);
-	if (!in.good())
-	{
-		std::cerr << "istream error" << std::endl;
-		exit(1);
-	}
-
-	date.setDate(input);
-
-	return in;
 }
 
 bool Date::setFormat(const std::string & format)

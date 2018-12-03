@@ -11,4 +11,6 @@ void test_problem();
 
 void test_full_dates(int y1, int y2);
 
+void test_format_neg();
+
 #endif // TEST_H

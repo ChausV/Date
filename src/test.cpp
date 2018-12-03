@@ -4,6 +4,7 @@
 
 using std::cout;
 using std::endl;
+using std::cerr;
 
 void testDate1(const std::string & str)
 {
@@ -91,6 +92,9 @@ void test_problem()
 /*
 ** Takes range of years and checks every date in this range.
 ** Outputs in case of error.
+**
+** Has no much sense now, after Date class modification.
+**
 */
 void test_full_dates(int y1, int y2)
 {	
@@ -112,4 +116,27 @@ void test_full_dates(int y1, int y2)
 			}
 		}
 	}
+}
+
+// negative setFormat() tests
+void test_format_neg()
+{
+	if (!Date::setFormat("% %m %d"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y % %d"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y %m %"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y %m %d %y"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y %m %d %m"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y %m %d %d"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y%m %d"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y %m%d"))
+		cerr << "error: Wrong format" << endl;
+	if (!Date::setFormat("%y%d %m"))
+		cerr << "error: Wrong format" << endl;
 }
