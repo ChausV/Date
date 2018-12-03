@@ -10,9 +10,9 @@ void testDate1(const std::string & str)
 	Date d;
 	d.setDate(str);
 	cout << d << endl;
-	cout << d.countDate() << endl;
+	cout << d.getDate() << endl;
 	cout << "-------------------------------";
-	if (str == d.countDate())
+	if (str == d.getDate())
 		cout << "[OK]" << endl;
 	else
 		cout << "Error!" << endl;
@@ -23,11 +23,12 @@ void testDateQuiet(const std::string & str)
 {
 	Date d;
 	d.setDate(str);
-	if (str != d.countDate())
+	if (str != d.getDate())
 	{
+		cout << str << endl;
 		cout << "--------------------  Error!" << endl;
 		cout << d << endl;
-		cout << d.countDate() << endl;
+		cout << d.getDate() << endl;
 		cout << endl;
 	}
 }
